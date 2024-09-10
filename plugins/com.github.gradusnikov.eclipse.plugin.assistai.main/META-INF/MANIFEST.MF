@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Assist AI
-Bundle-SymbolicName: com.github.gradusnikov.eclipse.plugin.assistai.main;singleton:=true
+Bundle-Name: AION-U Code Assistant
+Bundle-SymbolicName: com.github.gradusnikov.eclipse.plugin.aion.codeassistant.main;singleton:=true
 Bundle-Vendor: Wojciech Gradkowski
 Bundle-Version: 1.0.2.qualifier
-Bundle-Activator: com.github.gradusnikov.eclipse.assistai.Activator
+Bundle-Activator: com.github.gradusnikov.eclipse.aion.codeassistant.Activator
 Require-Bundle: org.eclipse.e4.ui.services,
  org.eclipse.core.runtime,
  org.eclipse.ui,
@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.e4.ui.services,
  org.eclipse.swt,
  org.apache.commons.lang3;bundle-version="3.1.0",
  org.eclipse.core.resources,
- com.github.gradusnikov.eclipse.plugin.assistai.dependencies;bundle-version="1.0.3",
+ com.github.gradusnikov.eclipse.plugin.aion.codeassistant.dependencies;bundle-version="1.0.3",
  org.eclipse.jgit,
  org.eclipse.egit.core,
  org.eclipse.compare,
@@ -28,9 +28,11 @@ Require-Bundle: org.eclipse.e4.ui.services,
  org.eclipse.ui.editors,
  jakarta.annotation-api;bundle-version="2.1.1",
  jakarta.inject.jakarta.inject-api;bundle-version="2.0.1",
- org.apache.commons.commons-io;bundle-version="2.15.1"
+ org.apache.commons.commons-io;bundle-version="2.15.1",
+ org.apache.httpcomponents.httpclient;bundle-version="4.5.14",
+ org.apache.httpcomponents.httpcore;bundle-version="4.4.16"
 Bundle-RequiredExecutionEnvironment: JavaSE-17
-Automatic-Module-Name: assistai.main
+Automatic-Module-Name: aion.codeassistant.main
 Bundle-Classpath: .
 Bundle-ActivationPolicy: lazy
 
