@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: aion.codeassistant-dependencies
-Bundle-SymbolicName: com.github.gradusnikov.eclipse.plugin.aion.codeassistant.dependencies
+Bundle-SymbolicName: com.ktds.eclipse.plugin.aion.codeassistant.dependencies
 Bundle-Version: 1.0.3
 Bundle-ClassPath: selenium/auto-service-annotations-1.1.1.jar,
  selenium/byte-buddy-1.14.5.jar,
@@ -74,7 +74,7 @@ Bundle-ClassPath: selenium/auto-service-annotations-1.1.1.jar,
  commons/commons-text-1.10.0.jar,
  tika/tika-core-2.9.1.jar,
  tika/tika-parser-text-module-2.9.1.jar
-Bundle-Vendor: Wojciech Gradkowski
+Bundle-Vendor: KT DS
 Export-Package: .,
  com.fasterxml.jackson.annotation,
  com.fasterxml.jackson.core,

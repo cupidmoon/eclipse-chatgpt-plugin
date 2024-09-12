@@ -9,6 +9,7 @@
 	font-family: 'Roboto', sans-serif;
 	color: #444;
 	line-height: 150%;
+	font-size: 10;
 }
 summary {
     font-weight: bold;
@@ -27,7 +28,7 @@ summary {
 
 .chat-bubble.you {
 	align-self: flex-start;
-	background-color: #444;
+	background-color: rgb(192, 192, 192);
 }
 
 .chat-bubble.you pre {
