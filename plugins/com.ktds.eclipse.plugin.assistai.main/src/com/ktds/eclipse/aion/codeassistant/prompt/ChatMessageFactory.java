@@ -51,6 +51,7 @@ public class ChatMessageFactory
                 case REFACTOR   -> refactorPromptSupplier( context );
                 case DISCUSS    -> discussCodePromptSupplier( context );
                 case FIX_ERRORS -> fixErrorsPromptSupplier( context );
+                case JAVA_UPGRADE -> javaUpgradePromptSupplier( context );
                 default ->
                     throw new IllegalArgumentException();
             };
@@ -70,6 +71,15 @@ public class ChatMessageFactory
     private Supplier<String> discussCodePromptSupplier( Context context )
     {
         return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.DISCUSS.preferenceName() ), 
+                "${documentText}", context.fileContents(),
+                "${fileName}", context.fileName(),
+                "${lang}", context.lang()
+                );
+    }
+
+    private Supplier<String> javaUpgradePromptSupplier( Context context )
+    {
+        return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.JAVA_UPGRADE.preferenceName() ), 
                 "${documentText}", context.fileContents(),
                 "${fileName}", context.fileName(),
                 "${lang}", context.lang()

@@ -8,7 +8,8 @@ public enum Prompts
     FIX_ERRORS("fix-errors-prompt.txt", "Fix Errors"),
     GIT_COMMENT("gitcomment-prompt.txt", "Git Comment"),
     REFACTOR("refactor-prompt.txt", "Refactor"),
-    TEST_CASE("testcase-prompt.txt", "JUnit Test case");
+    TEST_CASE("testcase-prompt.txt", "JUnit Test case"),
+	JAVA_UPGRADE("upgrade-prompt.txt", "Upgrade Source");
 
     private final String fileName;
     private final String description;
@@ -33,7 +34,4 @@ public enum Prompts
     {
         return description;
     }
-    
-    
-
 }
