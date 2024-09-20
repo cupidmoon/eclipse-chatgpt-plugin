@@ -44,6 +44,7 @@ public class AionUFixErrorsHandler
         var ext = "";
         var fileContents = "";
         var errorMessages = "";
+        var tempGitComment = "";
         
         var workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
         var projects = workspaceRoot.getProjects();

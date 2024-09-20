@@ -65,12 +65,17 @@ public class AionUGenerateGitCommentHandler
                 else
                 {
                     var headTree  = prepareTreeParser( repository, head );
+                    logger.info("headTree = " + headTree);
                     var indexTree = prepareIndexTreeParser( repository );
+                    logger.info("indexTree = " + indexTree);
                     var stagedChanges = git.diff().setOldTree( headTree ).setNewTree( indexTree ).call();
+                    logger.info("stagedChanges = " + stagedChanges);
                     
                     var patch = printChanges( git.getRepository(), stagedChanges );
+                    logger.info("patch = " + patch);
                     
                     var message = chatMessageFactory.createGenerateGitCommitCommentJob( patch );
+                    logger.info("message = " + message);
                     viewPresenter.onSendPredefinedPrompt( Prompts.GIT_COMMENT, message );
                 }
                     
