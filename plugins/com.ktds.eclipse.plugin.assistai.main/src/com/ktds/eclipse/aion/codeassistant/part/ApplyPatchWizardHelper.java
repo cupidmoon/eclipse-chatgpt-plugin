@@ -11,6 +11,7 @@ import org.eclipse.compare.CompareConfiguration;
 import org.eclipse.compare.patch.ApplyPatchOperation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
@@ -38,21 +39,21 @@ public class ApplyPatchWizardHelper
      * @param targetPath The target path where the patch will be applied.
      */
     public void showApplyPatchWizardDialog(String patch, String targetPath) {
-        
         // Create an InputStream from the patch string
         try ( var patchInputStream = new ByteArrayInputStream(patch.getBytes(StandardCharsets.UTF_8) ) )
         {
-            // Create an IStorage object to wrap the InputStream
-            var patchStorage = new PatchStorage( patch );
-            var window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-            var part = window.getActivePage().getActivePart();
-            // TODO: for the moment assume the target is associated with the project of currently opened editor
-            // which may not be true
-            var target = getProjectOfCurrentlyOpenedEditor();
-            
-            ApplyPatchOperation operation = new ApplyPatchOperation( part, patchStorage, target, new CompareConfiguration() );
-            // Create and open the WizardDialog
-            operation.openWizard();
+			// Create an IStorage object to wrap the InputStream
+			var patchStorage = new PatchStorage( patch );
+			var window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+			var part = window.getActivePage().getActivePart();
+			// TODO: for the moment assume the target is associated with the project of currently opened editor
+			// which may not be true
+		    var target = getProjectOfCurrentlyOpenedEditor();
+		    
+		    ApplyPatchOperation operation = new ApplyPatchOperation( part, patchStorage, target, new CompareConfiguration() );
+		
+		    // Create and open the WizardDialog
+			operation.openWizard();		
         } 
         catch (Exception e) 
         {
@@ -66,7 +67,7 @@ public class ApplyPatchWizardHelper
      *
      * @return The {@link IProject} of the project, or null if the active editor is not a text editor.
      */
-    private IProject getProjectOfCurrentlyOpenedEditor() 
+    private IResource getProjectOfCurrentlyOpenedEditor() 
     {
         var window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
         var activePage = window.getActivePage();
@@ -77,6 +78,7 @@ public class ApplyPatchWizardHelper
             IFile file = textEditor.getEditorInput().getAdapter(IFile.class);
             IProject project = file.getProject();
             return project;
+//            return file
         }
         else
         {
