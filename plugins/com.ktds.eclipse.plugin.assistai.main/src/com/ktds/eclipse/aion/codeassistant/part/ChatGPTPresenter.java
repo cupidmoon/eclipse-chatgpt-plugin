@@ -180,7 +180,8 @@ public class ChatGPTPresenter
 
     public void onApplyPatch( String codeBlock )
     {
-        applyPatchWizzardHelper.showApplyPatchWizardDialog( codeBlock, null );
+//        applyPatchWizzardHelper.showApplyPatchWizardDialog( codeBlock, null );
+        applyPatchWizzardHelper.changeToCompareEditorWithChanges( codeBlock );
 
     }
 

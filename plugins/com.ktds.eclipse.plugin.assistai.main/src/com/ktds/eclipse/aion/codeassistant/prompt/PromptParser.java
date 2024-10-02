@@ -169,11 +169,12 @@ public class PromptParser
         }
     }
 
+    private String codeBlockId = "";
     private void handleCodeBlock( StringBuilder out, String lang )
     {
         if( (state & CODE_BLOCK_STATE) != CODE_BLOCK_STATE )
         {
-            String codeBlockId = UUID.randomUUID().toString();
+            codeBlockId = UUID.randomUUID().toString();
             out.append( """ 
                     <input type="button" onClick="eclipseCopyCode(document.getElementById('${codeBlockId}').innerText)" value="Copy Code" />
                     <input type="${showApplyPatch}" onClick="eclipseApplyPatch(document.getElementById('${codeBlockId}').innerText)" value="ApplyPatch"/>
@@ -181,14 +182,22 @@ public class PromptParser
                     """
                     .replace( "${lang}", lang )
                     .replace( "${codeBlockId}", codeBlockId )
-                    .replace( "${showApplyPatch}", "diff".equals(lang) ? "button" : "hidden" ) // show "Apply Patch" button for diffs
+                    .replace( "${showApplyPatch}", "diff".equals(lang) ? "button" : "button" ) // show "Apply Patch" button for diffs
             );
             state ^= CODE_BLOCK_STATE;
         }
         else
         {
-            out.append( "</code></pre>\n" );
+            out.append( """ 
+            		</code></pre>
+            		<input type="button" onClick="eclipseCopyCode(document.getElementById('${codeBlockId}').innerText)" value="Copy Code" />
+                    <input type="${showApplyPatch}" onClick="eclipseApplyPatch(document.getElementById('${codeBlockId}').innerText)" value="ApplyPatch"/>
+            		"""
+                    .replace( "${codeBlockId}", codeBlockId )
+                    .replace( "${showApplyPatch}", "diff".equals(lang) ? "button" : "button" ) // show "Apply Patch" button for diffs
+            		);
             state ^= CODE_BLOCK_STATE;
+            codeBlockId = "";
         }
     }
     

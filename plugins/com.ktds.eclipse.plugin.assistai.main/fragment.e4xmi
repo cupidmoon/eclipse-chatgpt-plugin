@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/descriptor/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_BxaXACerEeWxCPrV0pAZQQ">
+  <imports xsi:type="commands:BindingContext" xmi:id="_ade32cf30d9c480c87cd42997e7b9193" elementId="org.eclipse.ui.contexts.dialogAndWindow"/>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_QqSikIrOEeW7h_qdP9N9fw" featurename="commands" parentElementId="xpath:/">
     <elements xsi:type="commands:Command" xmi:id="_UCYfwIrOEeW7h_qdP9N9fw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.command.0" commandName="Refactor" description="Asks ChatGPT to refactor the selected code">
       <persistedState key="persistState" value="false"/>
@@ -10,6 +11,8 @@
     <elements xsi:type="commands:Command" xmi:id="_tMtMsPELEe2go8AypQomeQ" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.command.4" commandName="Fix Errors" description="Asks ChatGPT  to fix errors"/>
     <elements xsi:type="commands:Command" xmi:id="_Y1hcQPPsEe2JjYfRC0o-vw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.command.5" commandName="Git Comment" description="Asks ChatGPT to generate a meaningful git commit comment"/>
     <elements xsi:type="commands:Command" xmi:id="_nhznCjeLPeMiCRaWJxNno6" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.command.6" commandName="Upgrade Code" description="Asks ChatGPT to upgrade java version"/>
+	<!-- hot keys -->
+    <elements xsi:type="commands:Command" xmi:id="_9dd101a34d12402a8a970e341a551eeb" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.command.7" commandName="Show Input Popup" description="Opens an input dialog"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_fW12kIrOEeW7h_qdP9N9fw" featurename="handlers" parentElementId="xpath:/">
     <elements xsi:type="commands:Handler" xmi:id="_k2L0IIrOEeW7h_qdP9N9fw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.0" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUCodeRefactorHandler" command="_UCYfwIrOEeW7h_qdP9N9fw">
@@ -25,11 +28,13 @@
     <elements xsi:type="commands:Handler" xmi:id="_x-SFUPELEe2go8AypQomeQ" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.4" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUFixErrorsHandler" command="_tMtMsPELEe2go8AypQomeQ"/>
     <elements xsi:type="commands:Handler" xmi:id="_naVwkPPsEe2JjYfRC0o-vw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.5" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUGenerateGitCommentHandler" command="_Y1hcQPPsEe2JjYfRC0o-vw"/>
     <elements xsi:type="commands:Handler"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.6" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUJavaUpgradeHandler" command="_nhznCjeLPeMiCRaWJxNno6"/>
+	<!-- hot keys -->
+    <elements xsi:type="commands:Handler"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.7" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUCommadPopupHandler" command="_9dd101a34d12402a8a970e341a551eeb"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_pVgfIIrOEeW7h_qdP9N9fw" featurename="menuContributions" parentElementId="xpath:/">
     <elements xsi:type="menu:MenuContribution" xmi:id="_BducUIrPEeW7h_qdP9N9fw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.menucontribution.1" positionInParent="after=additions" parentId="popup">
       <persistedState key="persistState" value="false"/>
-      <children xsi:type="menu:Menu" xmi:id="_Dtii0IrPEeW7h_qdP9N9fw" elementId="org.eclipse.pde.ui.templates.menu.e4handlers" label="AION-U Code Assistant" iconURI="platform:/plugin/com.ktds.eclipse.plugin.aion.codeassistant.main/icons/Sample.png" tooltip="" mnemonics=" CTRL + I">
+     <children xsi:type="menu:Menu" xmi:id="_Dtii0IrPEeW7h_qdP9N9fw" elementId="org.eclipse.pde.ui.templates.menu.e4handlers" label="AION-U Code Assistant" iconURI="platform:/plugin/com.ktds.eclipse.plugin.aion.codeassistant.main/icons/Sample.png" tooltip="" mnemonics="CTRL + I">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_s6Bw0PDVEe26l_NIXSJcoA" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.0" label="Discuss" tooltip="Discuss with ChatGPT about the opened file" command="_eYD8MPDVEe26l_NIXSJcoA"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_Dtii0YrPEeW7h_qdP9N9fw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.1" label="Refactor" iconURI="" tooltip="Asks ChatGPT to refactor the selected code" command="_UCYfwIrOEeW7h_qdP9N9fw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_weYC8N9eEe2hsMR7OZZDNw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.2" label="Document" tooltip="Asks ChatGPT to document class or method with JavaDoc" command="_TgvO8N9eEe2hsMR7OZZDNw"/>
@@ -37,10 +42,18 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_1bS-wPELEe2go8AypQomeQ" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.4" label="Fix errors" tooltip="Asks ChatGPT to fix errors" command="_tMtMsPELEe2go8AypQomeQ"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_6yXVMPPsEe2JjYfRC0o-vw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.5" label="Git Comment" tooltip="Asks ChatGPT to generate a meaningful git commit comment" command="_Y1hcQPPsEe2JjYfRC0o-vw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_iOItsl8DRWs61UNGq4lFQg" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.6" label="Upgrade Code" tooltip="Upgrade the opened file" command="_nhznCjeLPeMiCRaWJxNno6"/>
+		<!-- hot keys 
+        <children xsi:type="menu:HandledMenuItem"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.7" label="Input Command" tooltip="Input Command" command="_9dd101a34d12402a8a970e341a551eeb"/>
+        -->
       </children>
     </elements>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_AQJWAM2tEe2ZG5Twjghs_w" featurename="descriptors" parentElementId="xpath:/">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_a1df3c45a0214e53a049fbefc14bd1e0" featurename="bindingTables" parentElementId="xpath:/">
+    <elements xsi:type="commands:BindingTable" xmi:id="_b4c23271a67844cc80a1dd657a41602a" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.bindingTable.0" bindingContext="_ade32cf30d9c480c87cd42997e7b9193">
+      <bindings xmi:id="_6119b1e1aefb453da24ce66dec576ff2" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.keybinding.0" keySequence="CTRL+ALT+K" command="_9dd101a34d12402a8a970e341a551eeb"/>
+    </elements>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_b228b9a7691e4142ac41000ee3d69f67" featurename="descriptors" parentElementId="xpath:/">
     <elements xsi:type="basic:PartDescriptor" xmi:id="_CF9oIM2tEe2ZG5Twjghs_w" elementId="aion.codeassistant.partdescriptor.chatgptview" label="ChatGPT View" iconURI="platform:/plugin/com.ktds.eclipse.plugin.aion.codeassistant.main/icons/Sample.png" category="AION-U Code Assistant" closeable="true" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.part.ChatGPTViewPart">
       <tags>View</tags>
       <tags>categoryTag:AION-U Code Assistant</tags>

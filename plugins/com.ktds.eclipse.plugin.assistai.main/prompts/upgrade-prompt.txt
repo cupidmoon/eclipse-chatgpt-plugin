@@ -1,21 +1,8 @@
 We will upgrade the source code in the file [fileName] and its content [content].
 
 When ready, upgrade its content
-output as unified diff format for eclipse
-
-Example output:
-
-```diff
---- src/com/example/Test.java                                                                                              
-+++ src/com/example/Test.java                                                                                              
-@@ -1,5 +1,5 @@
-package com.example;
-
-public static void main(String[] args) {
--       // implement me
-+       System.out.println("Hello World!");
-}
-```
+leave unchanged part as it is
+do not remove remarks
 
 Below is the content of the file ${fileName}:
 

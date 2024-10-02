@@ -47,7 +47,6 @@ public class AionUHandlerTemplate
         var activeEditor = activePage.getActiveEditor();
 
         // Check if it is a text editor
-        logger.info("Check if it is a text editor");
         if (activeEditor instanceof ITextEditor)
         {
             ITextEditor textEditor = (ITextEditor) activeEditor;

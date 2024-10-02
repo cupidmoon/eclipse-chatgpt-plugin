@@ -1,6 +1,7 @@
 package com.ktds.eclipse.aion.codeassistant.part;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
@@ -8,7 +9,15 @@ import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
 import org.eclipse.compare.CompareConfiguration;
+import org.eclipse.compare.CompareEditorInput;
+import org.eclipse.compare.CompareUI;
+import org.eclipse.compare.contentmergeviewer.TextMergeViewer;
 import org.eclipse.compare.patch.ApplyPatchOperation;
+import org.eclipse.compare.structuremergeviewer.DiffNode;
+import org.eclipse.compare.structuremergeviewer.DiffTreeViewer;
+import org.eclipse.compare.structuremergeviewer.ICompareInput;
+import org.eclipse.compare.structuremergeviewer.ICompareInputChangeListener;
+import org.eclipse.compare.structuremergeviewer.IDiffContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -16,8 +25,17 @@ import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.e4.core.di.annotations.Creatable;
+import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.text.Document;
+import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 
 
@@ -31,6 +49,51 @@ public class ApplyPatchWizardHelper
 {
     @Inject
     private ILog logger;
+    
+    
+    public void changeToCompareEditorWithChanges( String codeBlock ) {
+        IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+        IEditorPart editor = page.getActiveEditor();
+        
+        IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+        
+        if (file != null) {
+            // 현재 에디터의 내용 가져오기
+            IDocument rightDocument = new Document(codeBlock);
+            
+            // Compare 에디터 설정
+            CompareConfiguration config = new CompareConfiguration();
+            config.setLeftLabel(file.getName());
+            config.setRightLabel("Updated Code");
+            config.setLeftEditable(true);
+            config.setRightEditable(false);
+            config.setProperty(CompareConfiguration.IGNORE_WHITESPACE, true);
+            
+            
+            CompareEditorInput input = new CompareEditorInput(config) {
+
+            	@Override
+                protected Object prepareInput(IProgressMonitor monitor) {
+                    return new DiffNode(
+                            new FileCompareInput(file),
+                            new TextCompareInput(rightDocument));
+                }
+
+                @Override
+                public Viewer createDiffViewer(Composite parent) {
+                	// TODO Auto-generated method stub
+                	logger.info("Craet TextMergeViewer");
+                	return new TextMergeViewer(parent, config);
+                }
+                
+            };
+            
+            input.setTitle("Patch: " + file.getName());
+            
+            // Compare 에디터 열기
+            CompareUI.openCompareEditorOnPage(input, page);
+        }
+    }
     
     /**
      * Displays the apply patch wizard dialog to the user, allowing them to apply a patch to a specified target path.
@@ -53,7 +116,7 @@ public class ApplyPatchWizardHelper
 		    ApplyPatchOperation operation = new ApplyPatchOperation( part, patchStorage, target, new CompareConfiguration() );
 		
 		    // Create and open the WizardDialog
-			operation.openWizard();		
+			operation.openWizard();
         } 
         catch (Exception e) 
         {
