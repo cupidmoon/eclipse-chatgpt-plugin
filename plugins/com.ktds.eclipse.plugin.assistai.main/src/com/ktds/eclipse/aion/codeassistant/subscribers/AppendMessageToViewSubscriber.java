@@ -50,7 +50,9 @@ public class AppendMessageToViewSubscriber implements Flow.Subscriber<Incoming>
         Objects.requireNonNull( presenter );
         Objects.requireNonNull( message );
         Objects.requireNonNull( subscription );
-        message.append(item.payload());
+        var chunk = item.payload();
+        logger.info("chunk = '" + chunk + "'");
+        message.append(chunk);
         presenter.updateMessageFromAssistant( message );
         subscription.request(1);
     }

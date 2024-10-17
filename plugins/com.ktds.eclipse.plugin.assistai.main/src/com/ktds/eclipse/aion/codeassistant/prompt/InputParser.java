@@ -5,14 +5,11 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.eclipse.core.runtime.ILog;
-
-import jakarta.inject.Inject;
 
 /**
  * A utility class for parsing and converting a text prompt to an HTML formatted string.
  */
-public class PromptParser
+public class InputParser
 {
     private static final int DEFAULT_STATE = 0;
     private static final int CODE_BLOCK_STATE = 1;
@@ -30,7 +27,7 @@ public class PromptParser
     
     private final String prompt;
     
-    public PromptParser( String prompt )
+    public InputParser( String prompt )
     {
         this.prompt = prompt;
     }
@@ -54,7 +51,7 @@ public class PromptParser
                 var  line    = scanner.next();
                 var codeBlockMatcher = codeBlockPattern.matcher( line );
                 var functionBlockMatcher = functionCallPattern.matcher( line );
-         
+                
                 if ( codeBlockMatcher.find() )
                 {
                     var lang = codeBlockMatcher.group(1);
@@ -96,7 +93,7 @@ public class PromptParser
         {
             out.append( """
                     <div class="function-call">
-                    <details><summary>Function call</summary>
+                    <details><summary>Function call</summary>	
                     <pre>
                     """ + line
                     
@@ -171,35 +168,13 @@ public class PromptParser
     }
 
     private String codeBlockId = "";
-    private Boolean showOnly = true;
     private void handleCodeBlock( StringBuilder out, String lang)
     {
     	if( (state & CODE_BLOCK_STATE) != CODE_BLOCK_STATE )
         {
-        	showOnly = "discuss".equals(lang);
-        	lang = "java";
-        	
             codeBlockId = UUID.randomUUID().toString();
-        	if(!showOnly)
-        	{
-	            out.append( """ 
-	                    <input type="button" onClick="eclipseCopyCode(document.getElementById('${codeBlockId}').innerText)" value="Copy Code" />
-	                    <input type="${showApplyPatch}" onClick="eclipseApplyPatch(document.getElementById('${codeBlockId}').innerText)" value="ApplyPatch"/>
-	                    """
-                .replace( "${codeBlockId}", codeBlockId )
-                .replace( "${showApplyPatch}", "diff".equals(lang) ? "button" : "button" )); // show "Apply Patch" button for diffs
-        	}
-        	
-
-        	out.append("""
-        			<div class="tooltip">
-        			<span class="tooltiptext">
-        			<span>C</span>
-        			<span>D</span>
-        			<span>S</span>
-        			</span>
-        			<pre>
-        			<code lang="${lang}" id="${codeBlockId}">
+            out.append("""
+                    <pre><code lang="${lang}" id="${codeBlockId}">
                     		"""
                     .replace( "${codeBlockId}", codeBlockId )
                     .replace( "${lang}", lang ));
@@ -208,18 +183,8 @@ public class PromptParser
         else
         {
             out.append( """ 
-            		</code></pre><div>
+            		</code></pre>
             		""");
-        	if(!showOnly)
-        	{
-        		out.append( """
-            		<input type="button" onClick="eclipseCopyCode(document.getElementById('${codeBlockId}').innerText)" value="Copy Code" />
-                    <input type="${showApplyPatch}" onClick="eclipseApplyPatch(document.getElementById('${codeBlockId}').innerText)" value="ApplyPatch"/>
-            		"""
-                    .replace( "${codeBlockId}", codeBlockId )
-                    .replace( "${showApplyPatch}", "diff".equals(lang) ? "button" : "button" ) // show "Apply Patch" button for diffs
-            		);
-        	}
         	
             state ^= CODE_BLOCK_STATE;
             codeBlockId = "";

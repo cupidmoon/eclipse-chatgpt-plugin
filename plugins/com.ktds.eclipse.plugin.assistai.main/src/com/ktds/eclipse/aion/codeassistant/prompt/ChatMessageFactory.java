@@ -52,6 +52,7 @@ public class ChatMessageFactory
                 case DISCUSS    -> discussCodePromptSupplier( context );
                 case FIX_ERRORS -> fixErrorsPromptSupplier( context );
                 case JAVA_UPGRADE -> javaUpgradePromptSupplier( context );
+                case DISCUSS_SELECTED -> discussSelectedCodePromptSupplier( context );
                 default ->
                     throw new IllegalArgumentException();
             };
@@ -65,6 +66,14 @@ public class ChatMessageFactory
                 "${fileName}", context.fileName(),
                 "${lang}", context.lang(),
                 "${errors}", context.selectedContent()
+                );
+    }
+
+    private Supplier<String> discussSelectedCodePromptSupplier( Context context )
+    {
+        return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.DISCUSS_SELECTED.preferenceName() ), 
+                "${selectedText}", context.selectedContent(),
+                "${lang}", context.lang()
                 );
     }
 

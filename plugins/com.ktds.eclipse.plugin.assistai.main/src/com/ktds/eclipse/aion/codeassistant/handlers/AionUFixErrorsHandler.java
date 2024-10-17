@@ -72,6 +72,8 @@ public class AionUFixErrorsHandler
             }
             filePath     = file.getProjectRelativePath().toString(); // use project relative path
             ext          = activeFile.substring( activeFile.lastIndexOf( "." )+1 );
+            
+            logger.info("file = " + filePath);
         }
         for ( IProject project : projects )
         {

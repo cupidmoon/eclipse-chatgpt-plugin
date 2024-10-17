@@ -299,18 +299,18 @@ public class AionUStreamJavaHttpClient
 									configuration.setConversationId(conversationId);
 							}
 							
-//							if ( node.has( "function_call" ) )
-//							{
-//							    var functionNode = node.get( "function_call" );
-//							    if ( functionNode.has( "name" ) )
-//							    {
-//							        publisher.submit( new Incoming(Incoming.Type.FUNCTION_CALL, String.format( "\"function_call\" : { \n \"name\": \"%s\",\n \"arguments\" :", functionNode.get("name").asText() ) ) );
-//							    }
-//							    if ( functionNode.has( "arguments" ) )
-//							    {
-//							        publisher.submit( new Incoming(Incoming.Type.FUNCTION_CALL, node.get("function_call").get("arguments").asText()) );
-//							    }
-//							}
+							if ( node.has( "function_call" ) )
+							{
+							    var functionNode = node.get( "function_call" );
+							    if ( functionNode.has( "name" ) )
+							    {
+							        publisher.submit( new Incoming(Incoming.Type.FUNCTION_CALL, String.format( "\"function_call\" : { \n \"name\": \"%s\",\n \"arguments\" :", functionNode.get("name").asText() ) ) );
+							    }
+							    if ( functionNode.has( "arguments" ) )
+							    {
+							        publisher.submit( new Incoming(Incoming.Type.FUNCTION_CALL, node.get("function_call").get("arguments").asText()) );
+							    }
+							}
     					}
     				}
     			}

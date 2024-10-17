@@ -14,6 +14,8 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.UISynchronize;
+import org.eclipse.jdt.ui.JavaUI;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
@@ -57,7 +59,8 @@ import org.eclipse.ui.PlatformUI;
 import com.ktds.eclipse.aion.codeassistant.model.AionUModelDescriptor;
 import com.ktds.eclipse.aion.codeassistant.part.Attachment.UiVisitor;
 import com.ktds.eclipse.aion.codeassistant.part.dnd.DropManager;
-import com.ktds.eclipse.aion.codeassistant.preferences.PreferenceConstants;
+import com.ktds.eclipse.aion.codeassistant.preferences.AionUPreferenceConstants;
+import com.ktds.eclipse.aion.codeassistant.prompt.InputParser;
 import com.ktds.eclipse.aion.codeassistant.prompt.PromptParser;
 import com.ktds.eclipse.aion.codeassistant.services.AionUClientConfiguration;
 import com.ktds.eclipse.aion.codeassistant.services.AionUHttpClient;
@@ -90,7 +93,7 @@ public class ChatGPTViewPart
 
     private LocalResourceManager resourceManager;
 
-    private Text                 inputArea;
+//    private Text                 inputArea;
 
     private Combo                modelCombo;
 
@@ -107,7 +110,7 @@ public class ChatGPTViewPart
     @Focus
     public void setFocus()
     {
-        inputArea.setFocus();
+    	browser.setFocus();
     }
 
     public void clearChatView()
@@ -115,12 +118,19 @@ public class ChatGPTViewPart
         uiSync.asyncExec( () -> initializeChatView( browser ) );
     }
 
-    public void clearUserInput()
-    {
-        uiSync.asyncExec( () -> {
-            inputArea.setText( "" );
-        } );
-    }
+//	public void clearUserInput()
+//    {
+//        uiSync.asyncExec( () -> {
+//            inputArea.setText( "" );
+//        } );
+//    }
+
+//	public void setUserInput(String inputMessage)
+//    {
+//        uiSync.asyncExec( () -> {
+//            inputArea.insert(inputMessage);
+//        } );
+//    }
 
     @PostConstruct
     public void createControls( Composite parent )
@@ -130,8 +140,8 @@ public class ChatGPTViewPart
         SashForm sashForm = new SashForm( parent, SWT.VERTICAL );
         sashForm.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true ) );
 
-        Composite browserContainer = new Composite( sashForm, SWT.NONE );
-        browserContainer.setLayout( new FillLayout() );
+        Composite browserContainer = new Composite( sashForm, SWT.VERTICAL);
+        browserContainer.setLayout( new FillLayout(SWT.VERTICAL) );
 
         browser = createChatView( browserContainer );
 
@@ -141,15 +151,15 @@ public class ChatGPTViewPart
         Composite controls = new Composite( sashForm, SWT.NONE );
 
         Composite attachmentsPanel = createAttachmentsPanel( controls );
-        inputArea = createUserInput( controls );
+//        inputArea = createUserInput( controls );
         // create components
         Button[] buttons = { createClearChatButton( controls ), createStopButton( controls ) };
 
         // layout components
         controls.setLayout( new GridLayout( buttons.length, false ) );
-        attachmentsPanel.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, false, buttons.length, 1 ) ); // Full
+        attachmentsPanel.setLayoutData( new GridData( SWT.FILL, SWT.PUSH, true, false, buttons.length, 1 ) ); // Full
                                                                                                               // width
-        inputArea.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, buttons.length, 1 ) ); // colspan
+//        inputArea.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true, buttons.length, 1 ) ); // colspan
                                                                                                       // =
                                                                                                       // num
                                                                                                       // of
@@ -180,7 +190,7 @@ public class ChatGPTViewPart
         modelCombo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, buttons.length, 1));
 
         // Sets the initial weight ratio: 75% browser, 25% controls
-        sashForm.setWeights( new int[] { 70, 30 } );
+        sashForm.setWeights( new int[] { 80, 20 } );
 
         // Enable DnD for the controls below the chat view
         dropManager.registerDropTarget( controls );
@@ -289,22 +299,22 @@ public class ChatGPTViewPart
         return button;
     }
 
-    private Text createUserInput( Composite parent )
-    {
-        Text inputArea = new Text( parent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL );
-        inputArea.addTraverseListener( new TraverseListener()
-        {
-            public void keyTraversed( TraverseEvent e )
-            {
-                if ( e.detail == SWT.TRAVERSE_RETURN && ( e.stateMask & SWT.MODIFIER_MASK ) == 0 )
-                {
-                    presenter.onSendUserMessage( inputArea.getText() );
-                }
-            }
-        } );
-        createCustomMenu( inputArea );
-        return inputArea;
-    }
+//    private Text createUserInput( Composite parent )
+//    {
+//        Text inputArea = new Text( parent, SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL );
+//        inputArea.addTraverseListener( new TraverseListener()
+//        {
+//            public void keyTraversed( TraverseEvent e )
+//            {
+//                if ( e.detail == SWT.TRAVERSE_RETURN && ( e.stateMask & SWT.MODIFIER_MASK ) == 0 )
+//                {
+//                    presenter.onSendUserMessage( inputArea.getText() );
+//                }
+//            }
+//        } );
+//        createCustomMenu( inputArea );
+//        return inputArea;
+//    }
 
     /**
      * Dynamically creates and assigns a custom context menu to the input area.
@@ -321,34 +331,34 @@ public class ChatGPTViewPart
      *            The Text widget to which the custom context menu will be
      *            attached.
      */
-    private void createCustomMenu( Text inputArea )
-    {
-        Menu menu = new Menu( inputArea );
-        inputArea.setMenu( menu );
-        menu.addMenuListener( new MenuAdapter()
-        {
-            @Override
-            public void menuShown( MenuEvent e )
-            {
-                // Dynamically adjust the context menu
-                MenuItem[] items = menu.getItems();
-                for ( MenuItem item : items )
-                {
-                    item.dispose();
-                }
-                // Add Cut, Copy, Paste items
-                addMenuItem( menu, "Cut", () -> inputArea.cut() );
-                addMenuItem( menu, "Copy", () -> inputArea.copy() );
-                MenuItem pasteItem = addMenuItem( menu, "Paste", () -> handlePasteOperation() );
-                // Enable or disable paste based on clipboard content
-                Clipboard clipboard = new Clipboard( Display.getCurrent() );
-                boolean enablePaste = clipboard.getContents( TextTransfer.getInstance() ) != null
-                        || clipboard.getContents( ImageTransfer.getInstance() ) != null;
-                pasteItem.setEnabled( enablePaste );
-                clipboard.dispose();
-            }
-        } );
-    }
+//    private void createCustomMenu( Text inputArea )
+//    {
+//        Menu menu = new Menu( inputArea );
+//        inputArea.setMenu( menu );
+//        menu.addMenuListener( new MenuAdapter()
+//        {
+//            @Override
+//            public void menuShown( MenuEvent e )
+//            {
+//                // Dynamically adjust the context menu
+//                MenuItem[] items = menu.getItems();
+//                for ( MenuItem item : items )
+//                {
+//                    item.dispose();
+//                }
+//                // Add Cut, Copy, Paste items
+//                addMenuItem( menu, "Cut", () -> inputArea.cut() );
+//                addMenuItem( menu, "Copy", () -> inputArea.copy() );
+//                MenuItem pasteItem = addMenuItem( menu, "Paste", () -> handlePasteOperation() );
+//                // Enable or disable paste based on clipboard content
+//                Clipboard clipboard = new Clipboard( Display.getCurrent() );
+//                boolean enablePaste = clipboard.getContents( TextTransfer.getInstance() ) != null
+//                        || clipboard.getContents( ImageTransfer.getInstance() ) != null;
+//                pasteItem.setEnabled( enablePaste );
+//                clipboard.dispose();
+//            }
+//        } );
+//    }
 
     private MenuItem addMenuItem( Menu parent, String text, Runnable action )
     {
@@ -358,26 +368,26 @@ public class ChatGPTViewPart
         return item;
     }
 
-    private void handlePasteOperation()
-    {
-        Clipboard clipboard = new Clipboard( Display.getCurrent() );
-
-        if ( clipboard.getContents( ImageTransfer.getInstance() ) != null )
-        {
-            ImageData imageData = (ImageData) clipboard.getContents( ImageTransfer.getInstance() );
-            presenter.onAttachmentAdded( imageData );
-        }
-        else
-        {
-            String textData = (String) clipboard.getContents( TextTransfer.getInstance() );
-            if ( textData != null )
-            {
-                inputArea.insert( textData ); // Manually insert text at the
-                                              // current caret position
-            }
-
-        }
-    }
+//    private void handlePasteOperation()
+//    {
+//        Clipboard clipboard = new Clipboard( Display.getCurrent() );
+//
+//        if ( clipboard.getContents( ImageTransfer.getInstance() ) != null )
+//        {
+//            ImageData imageData = (ImageData) clipboard.getContents( ImageTransfer.getInstance() );
+//            presenter.onAttachmentAdded( imageData );
+//        }
+//        else
+//        {
+//            String textData = (String) clipboard.getContents( TextTransfer.getInstance() );
+//            if ( textData != null )
+//            {
+//                inputArea.insert( textData ); // Manually insert text at the
+//                                              // current caret position
+//            }
+//
+//        }
+//    }
 
     private Browser createChatView( Composite parent )
     {
@@ -391,17 +401,22 @@ public class ChatGPTViewPart
     {
         new CopyCodeFunction( browser, "eclipseCopyCode" );
         new ApplyPatchFunction( browser, "eclipseApplyPatch" );
+        new SendPromptFunction(browser, "eclipseSendPrompt");
     }
 
     private void initializeChatView( Browser browser )
     {
         String htmlTemplate = """
                 <html>
-                    <style>${css}</style>
+        			<style>${css}</style>		
                     <script>${js}</script>
                     <body>
+                    	<div class="theme-vs-min">
+                        	<div class="chat-bubble me" contenteditable="true" id="InitialInput"
+                        		placeholder="Ask anything '/' for slash commands, '@' to add context"></div>	
                             <div id="content">
                             </div>
+                    	</div>
                     </body>
                 </html>
                 """;
@@ -424,7 +439,8 @@ public class ChatGPTViewPart
     private String loadCss()
     {
         StringBuilder css = new StringBuilder();
-        String[] cssFiles = { "textview.css", "dark.min.css" };
+//        String[] cssFiles = { "textview.css", "dark.min.css" };
+        String[] cssFiles = { "textview.css", "hjthemes.css" };
         for ( String file : cssFiles )
         {
             try (InputStream in = FileLocator.toFileURL( new URL( "platform:/plugin/com.ktds.eclipse.plugin.aion.codeassistant.main/css/" + file ) )
@@ -449,7 +465,7 @@ public class ChatGPTViewPart
      */
     private String loadJavaScripts()
     {
-        String[] jsFiles = { "highlight.min.js" };
+        String[] jsFiles = { "functions.js", "highlight.min.js"};
         StringBuilder js = new StringBuilder();
         for ( String file : jsFiles )
         {
@@ -472,11 +488,40 @@ public class ChatGPTViewPart
         uiSync.asyncExec( () -> {
             PromptParser parser = new PromptParser( messageBody );
 
+            String fixedHtml = escapeHtmlQuotes( fixLineBreaks(parser.parseToHtml()) );
+
+            // inject and highlight html message
+            browser.execute( "document.getElementById(\"message-" + messageId + "\").innerHTML = "
+            		+ "'" + fixedHtml + "';hljs.highlightAll();" );
+            // Scroll down
+            browser.execute( "window.scrollTo(0, document.body.scrollHeight);" );
+        } );
+    }
+
+    public void setInputHtml( String messageId, String messageBody )
+    {
+        uiSync.asyncExec( () -> {
+        	InputParser parser = new InputParser( messageBody );
+
             String fixedHtml = escapeHtmlQuotes( fixLineBreaks( parser.parseToHtml() ) );
             // inject and highlight html message
             browser.execute( "document.getElementById(\"message-" + messageId + "\").innerHTML = '" + fixedHtml + "';hljs.highlightAll();" );
             // Scroll down
             browser.execute( "window.scrollTo(0, document.body.scrollHeight);" );
+        } );
+    }
+    
+    public void addInputBlock(String messageId)
+    {
+        uiSync.asyncExec( () -> {
+            // inject and highlight html message
+            browser.execute( "document.getElementById(\"content\").innerHTML += '" + 
+            "<div class=\"chat-bubble me\" contenteditable=\"true\" id=\"message-" + messageId + "\" "
+            		+ "placeholder=\"Ask a follow-up\"></div>" + "';"
+            		+ "addKeyCapture(document.getElementById(\"message-" + messageId + "\"));");
+            // Scroll down
+            browser.execute( "window.scrollTo(0, document.body.scrollHeight);" );
+            browser.execute( "document.getElementById(\"message-" + messageId + "\").focus();" );
         } );
     }
 
@@ -666,12 +711,13 @@ public class ChatGPTViewPart
         }
     }
 
-    public void setInputEnabled( boolean b )
-    {
-        uiSync.asyncExec( () -> {
-            inputArea.setEnabled( b );
-        } );
-    }
+//    public void setInputEnabled( boolean b )
+//    {
+//        uiSync.asyncExec( () -> {
+//            inputArea.setEnabled( b );
+//            inputArea.setFocus();
+//        } );
+//    }
 
     /**
      * This function establishes a JavaScript-to-Java callback for the browser,
@@ -697,6 +743,25 @@ public class ChatGPTViewPart
         }
     }
 
+    private class SendPromptFunction extends BrowserFunction
+    {
+        public SendPromptFunction( Browser browser, String name )
+        {
+            super( browser, name );
+        }
+
+        @Override
+        public Object function( Object[] arguments )
+        {
+            if ( arguments.length > 0 && arguments[0] instanceof String )
+            {
+                String userPrompt = (String) arguments[0];
+                presenter.onSendUserMessage( userPrompt );
+            }
+            return null;
+        }
+    }
+    
     /**
      * This function establishes a JavaScript-to-Java callback for the browser,
      * allowing the IDE to copy code. It is invoked from JavaScript when the

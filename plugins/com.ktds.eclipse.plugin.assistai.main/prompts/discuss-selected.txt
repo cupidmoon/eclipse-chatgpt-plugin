@@ -1,0 +1,10 @@
+We will discuss the [content].
+When ready, reply the content and following instruction
+"코드에 대한 질문하세요"
+
+
+[content] = "
+```discuss
+${selectedText}
+```
+"

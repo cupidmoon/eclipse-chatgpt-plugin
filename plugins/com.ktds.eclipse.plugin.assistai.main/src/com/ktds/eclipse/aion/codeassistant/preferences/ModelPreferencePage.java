@@ -3,6 +3,7 @@ package com.ktds.eclipse.aion.codeassistant.preferences;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.di.UISynchronize;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.StringFieldEditor;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.ui.IWorkbench;
@@ -16,10 +17,10 @@ public class ModelPreferencePage extends FieldEditorPreferencePage implements IW
     
     private UISynchronize uiSync;
     private IPropertyChangeListener apiKeyListener = e -> {
-        if( PreferenceConstants.AION_BASE_URL.equals( e.getProperty() ) ||
-        		PreferenceConstants.AION_GET_MODEL_API_PATH.equals( e.getProperty() ) ||
-        		PreferenceConstants.AION_API_BASE_URL.equals( e.getProperty() ) ||
-        		PreferenceConstants.AION_API_KEY.equals( e.getProperty() ) 
+        if( AionUPreferenceConstants.AION_BASE_URL.equals( e.getProperty() ) ||
+        		AionUPreferenceConstants.AION_GET_MODEL_API_PATH.equals( e.getProperty() ) ||
+        		AionUPreferenceConstants.AION_API_BASE_URL.equals( e.getProperty() ) ||
+        		AionUPreferenceConstants.AION_API_KEY.equals( e.getProperty() ) 
         		)
         {
             uiSync.asyncExec( () -> {
@@ -47,16 +48,16 @@ public class ModelPreferencePage extends FieldEditorPreferencePage implements IW
     public void createFieldEditors()
     {
         addField( new StringFieldEditor(
-        		PreferenceConstants.AION_API_BASE_URL, "&AION-U Chat App Url:", getFieldEditorParent()));
+        		AionUPreferenceConstants.AION_API_BASE_URL, "&AION-U Chat App Url:", getFieldEditorParent()));
 
         addField( new StringFieldEditor(
-        		PreferenceConstants.AION_BASE_URL, "&AION-U Base Url:", getFieldEditorParent()));
+        		AionUPreferenceConstants.AION_BASE_URL, "&AION-U Base Url:", getFieldEditorParent()));
 
         addField( new StringFieldEditor(
-        		PreferenceConstants.AION_GET_MODEL_API_PATH, "&AION-U Model API Path:", getFieldEditorParent()));
+        		AionUPreferenceConstants.AION_GET_MODEL_API_PATH, "&AION-U Model API Path:", getFieldEditorParent()));
         
         addField( new StringFieldEditor(
-        		PreferenceConstants.AION_API_KEY, "&AION-U API Key:", getFieldEditorParent()));
+        		AionUPreferenceConstants.AION_API_KEY, "&AION-U API Key:", getFieldEditorParent()));
         
     }
     
@@ -83,5 +84,21 @@ public class ModelPreferencePage extends FieldEditorPreferencePage implements IW
         getPreferenceStore().removePropertyChangeListener( apiKeyListener );
         super.dispose();
     }
+
+
+//	@Override
+//	protected void performDefaults() {
+//		// TODO Auto-generated method stub
+//		super.performDefaults();
+//		
+//		IPreferenceStore store = getPreferenceStore();
+//
+//        store.setDefault(AionUPreferenceConstants.AION_API_BASE_URL, "https://api.aionu.edu-tech.io/v1");
+//        store.setDefault(AionUPreferenceConstants.AION_BASE_URL, "https://api.aionu.edu-tech.io");
+//        store.setDefault(AionUPreferenceConstants.AION_GET_MODEL_API_PATH, "/api/code-assistant/chat-app/models");
+//        store.setDefault(AionUPreferenceConstants.AION_API_KEY, "NhaHYRZjZkB95WJJnF27JXiDj4NLkWCo");
+//	}
+    
+    
 
 }

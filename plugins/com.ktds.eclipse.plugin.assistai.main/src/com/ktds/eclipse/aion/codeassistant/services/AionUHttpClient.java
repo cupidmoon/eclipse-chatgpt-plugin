@@ -17,7 +17,7 @@ import org.eclipse.e4.core.di.annotations.Creatable;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ktds.eclipse.aion.codeassistant.model.AionUModelDescriptor;
-import com.ktds.eclipse.aion.codeassistant.preferences.PreferenceConstants;
+import com.ktds.eclipse.aion.codeassistant.preferences.AionUPreferenceConstants;
 
 import jakarta.inject.Inject;
 

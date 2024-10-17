@@ -23,7 +23,7 @@ public class ModelListPreferencePresenter
     
     public List<ModelApiDescriptor> getModels()
     {
-        String modelsJson = preferenceStore.getString( PreferenceConstants.AION_DEFINED_MODELS );
+        String modelsJson = preferenceStore.getString( AionUPreferenceConstants.AION_DEFINED_MODELS );
         List<ModelApiDescriptor> models =  ModelApiDescriptorUtilities.fromJson( modelsJson );
         return models;
     }
@@ -56,7 +56,7 @@ public class ModelListPreferencePresenter
     public void save( List<ModelApiDescriptor> models )
     {
         String json = ModelApiDescriptorUtilities.toJson( models );
-        preferenceStore.setValue( PreferenceConstants.AION_DEFINED_MODELS, json );
+        preferenceStore.setValue( AionUPreferenceConstants.AION_DEFINED_MODELS, json );
     }
 
     public void saveModel( int selectedIndex, ModelApiDescriptor updatedModelStub )    
@@ -111,7 +111,7 @@ public class ModelListPreferencePresenter
 
     public void onPerformDefaults()
     {
-        preferenceStore.setToDefault( PreferenceConstants.AION_DEFINED_MODELS );
+        preferenceStore.setToDefault( AionUPreferenceConstants.AION_DEFINED_MODELS );
         view.showModels( getModels() );
         view.clearModelDetails();
     }

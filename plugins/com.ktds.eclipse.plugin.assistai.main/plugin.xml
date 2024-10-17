@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-
    <extension
          id="com.ktds.eclipse.aion.codeassistant.fragment"
          point="org.eclipse.e4.workbench.model">
@@ -12,7 +11,6 @@
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">
-      
       <page
             class="com.ktds.eclipse.aion.codeassistant.preferences.ModelPreferencePage"
             id="com.ktds.eclipse.aion.codeassistant.preferences.OpenAIPreferencePage"
@@ -37,5 +35,4 @@
             class="com.ktds.eclipse.aion.codeassistant.preferences.PreferenceInitializer">
       </initializer>
    </extension>
-
 </plugin>

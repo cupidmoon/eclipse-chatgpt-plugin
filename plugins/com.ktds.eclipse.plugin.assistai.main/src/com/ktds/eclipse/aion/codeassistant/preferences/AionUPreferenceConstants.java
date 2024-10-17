@@ -3,7 +3,7 @@ package com.ktds.eclipse.aion.codeassistant.preferences;
 /**
  * Constant definitions for plug-in preferences
  */
-public class PreferenceConstants
+public class AionUPreferenceConstants
 {
     public static final String AION_CONNECTION_TIMEOUT_SECONDS = "AionUConnectionTimeoutSeconds";
     public static final String AION_REQUEST_TIMEOUT_SECONDS = "AionURequestTimeoutSeconds";

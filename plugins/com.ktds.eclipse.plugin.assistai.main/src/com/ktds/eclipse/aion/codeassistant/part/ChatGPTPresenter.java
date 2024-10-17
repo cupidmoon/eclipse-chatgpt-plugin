@@ -33,7 +33,7 @@ import com.ktds.eclipse.aion.codeassistant.jobs.SendConversationJob;
 import com.ktds.eclipse.aion.codeassistant.model.ChatMessage;
 import com.ktds.eclipse.aion.codeassistant.model.Conversation;
 import com.ktds.eclipse.aion.codeassistant.part.Attachment.FileContentAttachment;
-import com.ktds.eclipse.aion.codeassistant.preferences.PreferenceConstants;
+import com.ktds.eclipse.aion.codeassistant.preferences.AionUPreferenceConstants;
 import com.ktds.eclipse.aion.codeassistant.prompt.ChatMessageFactory;
 import com.ktds.eclipse.aion.codeassistant.prompt.ChatMessageUtilities;
 import com.ktds.eclipse.aion.codeassistant.prompt.Prompts;
@@ -98,7 +98,7 @@ public class ChatGPTPresenter
         attachments.clear();
         partAccessor.findMessageView().ifPresent( view -> {
             view.clearChatView();
-            view.clearUserInput();
+//            view.clearUserInput();
             view.clearAttachments();
         } );
     }
@@ -108,14 +108,14 @@ public class ChatGPTPresenter
         logger.info( "Send user message" );
         ChatMessage message = createUserMessage( text );
         conversation.add( message );
-        partAccessor.findMessageView().ifPresent( part -> {
-            part.clearUserInput();
-            part.clearAttachments();
-            part.appendMessage( message.getId(), message.getRole() );
-            String content = ChatMessageUtilities.toMarkdownContent( message );
-            part.setMessageHtml( message.getId(), content );
-            attachments.clear();
-        } );
+//        partAccessor.findMessageView().ifPresent( part -> {
+//            part.clearUserInput();
+//            part.clearAttachments();
+//            part.appendMessage( message.getId(), message.getRole() );
+//            String content = ChatMessageUtilities.toMarkdownContent( message );
+//            part.setMessageHtml( message.getId(), content );
+//            attachments.clear();
+//        } );
         sendConversationJobProvider.get().schedule();
     }
 
@@ -132,7 +132,17 @@ public class ChatGPTPresenter
         conversation.add( message );
         partAccessor.findMessageView().ifPresent( messageView -> {
             messageView.appendMessage( message.getId(), message.getRole() );
-            messageView.setInputEnabled( false );
+//            messageView.setInputEnabled( false );
+        } );
+        return message;
+    }
+
+    public ChatMessage beginMessageFromUI()
+    {
+        ChatMessage message = chatMessageFactory.createAssistantChatMessage( "" );
+        conversation.add( message );
+        partAccessor.findMessageView().ifPresent( messageView -> {
+            messageView.appendMessage( message.getId(), "user" );
         } );
         return message;
     }
@@ -144,10 +154,20 @@ public class ChatGPTPresenter
         } );
     }
 
-    public void endMessageFromAssistant()
+    public void updateMessageFromUI( ChatMessage message )
     {
         partAccessor.findMessageView().ifPresent( messageView -> {
-            messageView.setInputEnabled( true );
+            messageView.setInputHtml( message.getId(), message.getContent() );
+        } );
+    }
+
+    public void endMessageFromAssistant()
+    {
+        ChatMessage message = chatMessageFactory.createAssistantChatMessage( "<div class=\"chat-bubble me\" contenteditable=\"true\"></div>" );
+        conversation.add( message );
+        partAccessor.findMessageView().ifPresent( messageView -> {
+            messageView.addInputBlock(message.getId());
+//            messageView.setInputEnabled( true );
         } );
     }
 
@@ -160,7 +180,7 @@ public class ChatGPTPresenter
         Arrays.stream( jobs ).filter( job -> job.getName().startsWith( AionUJobConstants.JOB_PREFIX ) ).forEach( Job::cancel );
 
         partAccessor.findMessageView().ifPresent( messageView -> {
-            messageView.setInputEnabled( true );
+//            messageView.setInputEnabled( true );
         } );
     }
 
@@ -181,6 +201,7 @@ public class ChatGPTPresenter
     public void onApplyPatch( String codeBlock )
     {
 //        applyPatchWizzardHelper.showApplyPatchWizardDialog( codeBlock, null );
+    	logger.info("codeBlock = " + codeBlock);
         applyPatchWizzardHelper.changeToCompareEditorWithChanges( codeBlock );
 
     }
@@ -270,10 +291,10 @@ public class ChatGPTPresenter
     }
     	
     private IPropertyChangeListener propChangeListener = e -> {
-        if( PreferenceConstants.AION_BASE_URL.equals( e.getProperty() ) ||
-        		PreferenceConstants.AION_GET_MODEL_API_PATH.equals( e.getProperty() ) ||
-        		PreferenceConstants.AION_API_BASE_URL.equals( e.getProperty() ) ||
-        		PreferenceConstants.AION_API_KEY.equals( e.getProperty() ) 
+        if( AionUPreferenceConstants.AION_BASE_URL.equals( e.getProperty() ) ||
+        		AionUPreferenceConstants.AION_GET_MODEL_API_PATH.equals( e.getProperty() ) ||
+        		AionUPreferenceConstants.AION_API_BASE_URL.equals( e.getProperty() ) ||
+        		AionUPreferenceConstants.AION_API_KEY.equals( e.getProperty() ) 
         		)
         {
         	partAccessor.findMessageView().ifPresent( view -> {

@@ -29,21 +29,23 @@
     <elements xsi:type="commands:Handler" xmi:id="_naVwkPPsEe2JjYfRC0o-vw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.5" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUGenerateGitCommentHandler" command="_Y1hcQPPsEe2JjYfRC0o-vw"/>
     <elements xsi:type="commands:Handler"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.6" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUJavaUpgradeHandler" command="_nhznCjeLPeMiCRaWJxNno6"/>
 	<!-- hot keys -->
-    <elements xsi:type="commands:Handler"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.7" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUCommadPopupHandler" command="_9dd101a34d12402a8a970e341a551eeb"/>
+    <elements xsi:type="commands:Handler"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handler.7" contributionURI="bundleclass://com.ktds.eclipse.plugin.aion.codeassistant.main/com.ktds.eclipse.aion.codeassistant.handlers.AionUCommadChatHandler" command="_9dd101a34d12402a8a970e341a551eeb"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_pVgfIIrOEeW7h_qdP9N9fw" featurename="menuContributions" parentElementId="xpath:/">
     <elements xsi:type="menu:MenuContribution" xmi:id="_BducUIrPEeW7h_qdP9N9fw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.menucontribution.1" positionInParent="after=additions" parentId="popup">
       <persistedState key="persistState" value="false"/>
-     <children xsi:type="menu:Menu" xmi:id="_Dtii0IrPEeW7h_qdP9N9fw" elementId="org.eclipse.pde.ui.templates.menu.e4handlers" label="AION-U Code Assistant" iconURI="platform:/plugin/com.ktds.eclipse.plugin.aion.codeassistant.main/icons/Sample.png" tooltip="" mnemonics="CTRL + I">
+     <children xsi:type="menu:Menu" xmi:id="_Dtii0IrPEeW7h_qdP9N9fw" elementId="org.eclipse.pde.ui.templates.menu.e4handlers" label="AION-U Code Assistant" iconURI="platform:/plugin/com.ktds.eclipse.plugin.aion.codeassistant.main/icons/Sample.png" tooltip="">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_s6Bw0PDVEe26l_NIXSJcoA" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.0" label="Discuss" tooltip="Discuss with ChatGPT about the opened file" command="_eYD8MPDVEe26l_NIXSJcoA"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_Dtii0YrPEeW7h_qdP9N9fw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.1" label="Refactor" iconURI="" tooltip="Asks ChatGPT to refactor the selected code" command="_UCYfwIrOEeW7h_qdP9N9fw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_weYC8N9eEe2hsMR7OZZDNw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.2" label="Document" tooltip="Asks ChatGPT to document class or method with JavaDoc" command="_TgvO8N9eEe2hsMR7OZZDNw"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_HlM0MOtKEe2Z7LAQxNqxLg" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.3" label="JUnit test case" tooltip="Asks ChatGPT to generate a JUnit Test Case" command="_zB4hIOtJEe2Z7LAQxNqxLg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_1bS-wPELEe2go8AypQomeQ" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.4" label="Fix errors" tooltip="Asks ChatGPT to fix errors" command="_tMtMsPELEe2go8AypQomeQ"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_6yXVMPPsEe2JjYfRC0o-vw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.5" label="Git Comment" tooltip="Asks ChatGPT to generate a meaningful git commit comment" command="_Y1hcQPPsEe2JjYfRC0o-vw"/>
+<!--        <children xsi:type="menu:HandledMenuItem" xmi:id="_6yXVMPPsEe2JjYfRC0o-vw" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.5" label="Git Comment" tooltip="Asks ChatGPT to generate a meaningful git commit comment" command="_Y1hcQPPsEe2JjYfRC0o-vw"/> -->
         <children xsi:type="menu:HandledMenuItem" xmi:id="_iOItsl8DRWs61UNGq4lFQg" elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.6" label="Upgrade Code" tooltip="Upgrade the opened file" command="_nhznCjeLPeMiCRaWJxNno6"/>
 		<!-- hot keys 
-        <children xsi:type="menu:HandledMenuItem"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.7" label="Input Command" tooltip="Input Command" command="_9dd101a34d12402a8a970e341a551eeb"/>
+	     <children xsi:type="menu:Menu" xmi:id="_Dtii0IrPEeW7h_qdP9N9fw" elementId="org.eclipse.pde.ui.templates.menu.e4handlers" label="AION-U Code Assistant" iconURI="platform:/plugin/com.ktds.eclipse.plugin.aion.codeassistant.main/icons/Sample.png" tooltip="">
+	        <children xsi:type="menu:HandledMenuItem"                                  elementId="com.ktds.eclipse.plugin.aion.codeassistant.main.handledmenuitem.7" label="Input Command" tooltip="Input Command" command="_9dd101a34d12402a8a970e341a551eeb"/>
+	      </children>
         -->
       </children>
     </elements>
