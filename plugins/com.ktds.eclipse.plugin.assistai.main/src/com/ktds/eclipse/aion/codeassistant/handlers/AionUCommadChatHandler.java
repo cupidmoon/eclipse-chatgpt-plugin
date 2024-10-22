@@ -31,6 +31,11 @@ public class AionUCommadChatHandler // extends AionUHandlerTemplate
     @Execute
     public void execute( @Named( IServiceConstants.ACTIVE_SHELL ) Shell s )
     {
+    	runPrompt();
+    }
+    
+    public void runPrompt()
+    {
         var activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         var activeEditor = activePage.getActiveEditor();
 
@@ -53,7 +58,7 @@ public class AionUCommadChatHandler // extends AionUHandlerTemplate
             
             partAccessor.findMessageView().ifPresent( messageView -> {
             	messageView.setFocus();
-            	});
+            });
 
         }
     }

@@ -9,12 +9,19 @@ import com.ktds.eclipse.aion.codeassistant.preferences.PromptsPreferencePresente
 public class Activator extends AbstractUIPlugin 
 {
     private static Activator plugin = null;
+    private static BundleContext context = null;
     
     @Override
     public void start(BundleContext context) throws Exception 
     {
         super.start(context);
+    	Activator.context = context;
         plugin = this;
+    }
+    
+    public static BundleContext getBundleContext()
+    {
+    	return context;
     }
     
     public static Activator getDefault() 

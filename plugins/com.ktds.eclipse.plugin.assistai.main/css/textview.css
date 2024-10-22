@@ -39,7 +39,7 @@ summary {
 	outline: none;
 }
 
-.chat-bubble.me[contenteditable=true]:empty:not(:focus):before {
+.chat-bubble.me[contenteditable=true]:empty:before {
     content: attr(placeholder);
     color: gray;
 	font-style:italic;
@@ -69,3 +69,46 @@ summary {
 	padding: 1rem;
 	margin:auto;
 }
+
+
+#editor {
+    border: 1px solid #ccc;
+    padding: 10px;
+    min-height: 100px;
+}
+
+#suggestions {
+    display: none;
+    position: absolute;
+    border: 1px solid #ccc;
+    background-color: white;
+	border-radius: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+	margin: 0px;
+	line-height: 100%;	
+	z-index: 999;
+}
+
+.suggestion {
+    padding: 5px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
+.suggestion:hover, .suggestion.selected {
+	background-color: #0060C0;
+    border-radius: 8px;
+    color: white;
+}
+
+.suggestion i {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+

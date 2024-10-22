@@ -39,6 +39,11 @@ public class AionUFixErrorsHandler
     @Execute
     public void execute( @Named( IServiceConstants.ACTIVE_SHELL ) Shell s )
     {
+    	runPrompt();
+    }
+    
+    public void runPrompt()
+    {
         var activeFile = "";
         var filePath = "";
         var ext = "";

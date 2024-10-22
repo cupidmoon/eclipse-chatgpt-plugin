@@ -12,6 +12,8 @@ import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.jobs.IJobManager;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.InstanceScope;
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
+import org.eclipse.e4.core.contexts.EclipseContextFactory;
 import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.swt.SWT;
@@ -24,10 +26,14 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
+import org.osgi.framework.Bundle;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
 import com.ktds.eclipse.aion.codeassistant.Activator;
+import com.ktds.eclipse.aion.codeassistant.handlers.AionUCodeRefactorHandler;
+import com.ktds.eclipse.aion.codeassistant.handlers.AionUFixErrorsHandler;
+import com.ktds.eclipse.aion.codeassistant.handlers.AionUHanddlerInvoker;
 import com.ktds.eclipse.aion.codeassistant.jobs.AionUJobConstants;
 import com.ktds.eclipse.aion.codeassistant.jobs.SendConversationJob;
 import com.ktds.eclipse.aion.codeassistant.model.ChatMessage;
@@ -101,6 +107,11 @@ public class ChatGPTPresenter
 //            view.clearUserInput();
             view.clearAttachments();
         } );
+    }
+
+    public void onSendPredefinedMessage( String text )
+    {
+    	AionUHanddlerInvoker.Invoke(text);
     }
 
     public void onSendUserMessage( String text )
@@ -206,14 +217,27 @@ public class ChatGPTPresenter
 
     }
 
+//    public void onSendPredefinedPrompt( Prompts type, ChatMessage message )
+//    {
+//        conversation.add( message );
+//
+//        // update view
+//        partAccessor.findMessageView().ifPresent( messageView -> {
+//            messageView.appendMessage( message.getId(), message.getRole() );
+//            messageView.setMessageHtml( message.getId(), type.getDescription() );
+//        } );
+//
+//        // schedule message
+//        sendConversationJobProvider.get().schedule();
+//    }
+    
     public void onSendPredefinedPrompt( Prompts type, ChatMessage message )
     {
         conversation.add( message );
 
         // update view
         partAccessor.findMessageView().ifPresent( messageView -> {
-            messageView.appendMessage( message.getId(), message.getRole() );
-            messageView.setMessageHtml( message.getId(), type.getDescription() );
+        	messageView.setInputMessage(type.getDescription());
         } );
 
         // schedule message

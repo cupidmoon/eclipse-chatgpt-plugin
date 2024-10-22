@@ -29,7 +29,7 @@ public class PromptParser
     private int state = DEFAULT_STATE;
     
     private final String prompt;
-    
+
     public PromptParser( String prompt )
     {
         this.prompt = prompt;
@@ -171,36 +171,28 @@ public class PromptParser
     }
 
     private String codeBlockId = "";
-    private Boolean showOnly = true;
     private void handleCodeBlock( StringBuilder out, String lang)
     {
     	if( (state & CODE_BLOCK_STATE) != CODE_BLOCK_STATE )
         {
-        	showOnly = "discuss".equals(lang);
-        	lang = "java";
-        	
             codeBlockId = UUID.randomUUID().toString();
-        	if(!showOnly)
-        	{
-	            out.append( """ 
-	                    <input type="button" onClick="eclipseCopyCode(document.getElementById('${codeBlockId}').innerText)" value="Copy Code" />
-	                    <input type="${showApplyPatch}" onClick="eclipseApplyPatch(document.getElementById('${codeBlockId}').innerText)" value="ApplyPatch"/>
-	                    """
-                .replace( "${codeBlockId}", codeBlockId )
-                .replace( "${showApplyPatch}", "diff".equals(lang) ? "button" : "button" )); // show "Apply Patch" button for diffs
-        	}
-        	
-
         	out.append("""
         			<div class="tooltip">
-        			<span class="tooltiptext">
-        			<span>C</span>
-        			<span>D</span>
-        			<span>S</span>
-        			</span>
+        			<div class="tooltip_container">
+        			<div class="tooltiptext">
+        			<ul class="toolbar">
+        			<li onClick="eclipseApplyPatch(document.getElementById('${codeBlockId}').innerText)">${applyPatch}</li>
+        			<li onClick="eclipseCopyCode(document.getElementById('${codeBlockId}').innerText)">${copyClipboard}</li>
+        			<li>${copyToCursor}</li>
+        			</ul>
+        			</div>
+        			</div>
         			<pre>
         			<code lang="${lang}" id="${codeBlockId}">
                     		"""
+        			.replace( "${applyPatch}", ImageTagLoader.getInstance().getApplyPatch(16))
+        			.replace( "${copyClipboard}", ImageTagLoader.getInstance().getCopyClipboard(16))
+        			.replace( "${copyToCursor}", ImageTagLoader.getInstance().getCopyToCursor(16))
                     .replace( "${codeBlockId}", codeBlockId )
                     .replace( "${lang}", lang ));
             state ^= CODE_BLOCK_STATE;
@@ -208,19 +200,8 @@ public class PromptParser
         else
         {
             out.append( """ 
-            		</code></pre><div>
+            		</code></pre></div>
             		""");
-        	if(!showOnly)
-        	{
-        		out.append( """
-            		<input type="button" onClick="eclipseCopyCode(document.getElementById('${codeBlockId}').innerText)" value="Copy Code" />
-                    <input type="${showApplyPatch}" onClick="eclipseApplyPatch(document.getElementById('${codeBlockId}').innerText)" value="ApplyPatch"/>
-            		"""
-                    .replace( "${codeBlockId}", codeBlockId )
-                    .replace( "${showApplyPatch}", "diff".equals(lang) ? "button" : "button" ) // show "Apply Patch" button for diffs
-            		);
-        	}
-        	
             state ^= CODE_BLOCK_STATE;
             codeBlockId = "";
         }

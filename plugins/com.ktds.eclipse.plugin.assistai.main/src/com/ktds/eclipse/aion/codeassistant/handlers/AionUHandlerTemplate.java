@@ -42,6 +42,11 @@ public class AionUHandlerTemplate
     @Execute
     public void execute(@Named(IServiceConstants.ACTIVE_SHELL) Shell s)
     {
+    	runPrompt();
+    }
+    
+    public void runPrompt()
+    {
         // Get the active editor
         var activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
         var activeEditor = activePage.getActiveEditor();

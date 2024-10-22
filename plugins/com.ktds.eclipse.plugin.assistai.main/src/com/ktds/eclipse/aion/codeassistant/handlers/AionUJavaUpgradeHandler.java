@@ -35,6 +35,11 @@ public class AionUJavaUpgradeHandler
     @Execute
     public void execute( @Named( IServiceConstants.ACTIVE_SHELL ) Shell s )
     {
+    	runPrompt();
+    }
+    
+    public void runPrompt()
+    {
         // Get the active workbench window
         var workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 

@@ -412,9 +412,10 @@ public class ChatGPTViewPart
                     <script>${js}</script>
                     <body>
                     	<div class="theme-vs-min">
-                        	<div class="chat-bubble me" contenteditable="true" id="InitialInput"
-                        		placeholder="Ask anything '/' for slash commands, '@' to add context"></div>	
                             <div id="content">
+        						<div class="chat-bubble" id="suggestions"></div>
+	                        	<div class="chat-bubble me current" contenteditable="true" autofocus   
+	                        		placeholder="Ask anything"></div>
                             </div>
                     	</div>
                     </body>
@@ -511,17 +512,29 @@ public class ChatGPTViewPart
         } );
     }
     
+//    public void addInputBlock(String messageId)
+//    {
+//        uiSync.asyncExec( () -> {
+//            // inject and highlight html message
+//            browser.execute( "document.getElementById(\"content\").innerHTML += '" + 
+//            "<div class=\"chat-bubble me\" contenteditable=\"true\" id=\"message-" + messageId + "\" "
+//            		+ "placeholder=\"Ask a follow-up\"></div>" + "';"
+//            		+ "addKeyCapture(document.getElementById(\"message-" + messageId + "\"));");
+//            // Scroll down
+//            browser.execute( "window.scrollTo(0, document.body.scrollHeight);" );
+//            browser.execute( "document.getElementById(\"message-" + messageId + "\").focus();" );
+//        } );
+//    }
     public void addInputBlock(String messageId)
     {
         uiSync.asyncExec( () -> {
             // inject and highlight html message
             browser.execute( "document.getElementById(\"content\").innerHTML += '" + 
-            "<div class=\"chat-bubble me\" contenteditable=\"true\" id=\"message-" + messageId + "\" "
-            		+ "placeholder=\"Ask a follow-up\"></div>" + "';"
-            		+ "addKeyCapture(document.getElementById(\"message-" + messageId + "\"));");
+            "<div class=\"chat-bubble me current\" contenteditable=\"true\" autofocus "
+            		+ "placeholder=\"Ask a follow-up\"></div>" + "';");
             // Scroll down
+            browser.execute( "addKeyCapture();" );
             browser.execute( "window.scrollTo(0, document.body.scrollHeight);" );
-            browser.execute( "document.getElementById(\"message-" + messageId + "\").focus();" );
         } );
     }
 
@@ -565,6 +578,18 @@ public class ChatGPTViewPart
             browser.execute(
                     // Scroll down
                     "window.scrollTo(0, document.body.scrollHeight);" );
+        } );
+    }
+
+    public void setInputMessage( String command )
+    {
+        uiSync.asyncExec( () -> {
+            browser.execute( """
+                    setPredefinedPrompt('/${command}');
+                    	""".replace( "${command}", command ) );
+//            browser.execute(
+//                    // Scroll down
+//                    "window.scrollTo(0, document.body.scrollHeight);" );
         } );
     }
 
@@ -753,11 +778,26 @@ public class ChatGPTViewPart
         @Override
         public Object function( Object[] arguments )
         {
-            if ( arguments.length > 0 && arguments[0] instanceof String )
-            {
-                String userPrompt = (String) arguments[0];
-                presenter.onSendUserMessage( userPrompt );
-            }
+        	String userPrompt;
+        	Boolean isPreDefinedPormpt = false;
+        	
+        	if(arguments.length > 0 && arguments[0] instanceof String )
+        	{
+        		userPrompt = (String) arguments[0];
+
+        		if(arguments.length > 1 && arguments[1] instanceof Boolean )
+            		isPreDefinedPormpt = Boolean.valueOf(arguments[1].toString());
+            	
+        		if(isPreDefinedPormpt)
+        		{
+                    presenter.onSendPredefinedMessage( userPrompt );
+        		}
+        		else
+                {
+                    presenter.onSendUserMessage( userPrompt );
+                }
+        	}
+        	
             return null;
         }
     }
