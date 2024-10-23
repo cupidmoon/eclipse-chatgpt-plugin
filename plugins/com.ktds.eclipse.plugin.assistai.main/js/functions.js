@@ -4,7 +4,7 @@ var suggestions;
 const words = [
     { word: '/Discuss', icon: 'fas fa-apple-alt' },
     { word: '/Document', icon: 'fas fa-banana' },
-    { word: '/Fix Erros', icon: 'fas fa-cherry' },
+    { word: '/Fix Errors', icon: 'fas fa-cherry' },
     { word: '/Git Comment', icon: 'far fa-calendar-alt' },
     { word: '/Refactor', icon: 'fas fa-seedling' },
     { word: '/Test Case', icon: 'fas fa-leaf' },
@@ -57,7 +57,7 @@ function handleInput() {
         const lastWord = text.slice(0, cursorPosition).split(/\s+/).pop();
 
         if (lastWord.length > 0) {
-            const matchedWords = words.filter(item => item.word.startsWith(lastWord));
+            const matchedWords = words.filter(item => item.word.toUpperCase().startsWith(lastWord.toUpperCase()));
             showSuggestions(matchedWords, lastWord);
         } else {
             hideSuggestions();

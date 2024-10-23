@@ -415,7 +415,7 @@ public class ChatGPTViewPart
                             <div id="content">
         						<div class="chat-bubble" id="suggestions"></div>
 	                        	<div class="chat-bubble me current" contenteditable="true" autofocus   
-	                        		placeholder="Ask anything"></div>
+	                        		placeholder="Ask anything, '/' for slash commands"></div>
                             </div>
                     	</div>
                     </body>
