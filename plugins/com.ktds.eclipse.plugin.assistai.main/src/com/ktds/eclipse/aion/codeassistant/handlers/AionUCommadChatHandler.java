@@ -51,7 +51,8 @@ public class AionUCommadChatHandler // extends AionUHandlerTemplate
 
             if(selectedText.length() > 0)
             {
-                var message = presenter.beginMessageFromUI();
+//                var message = presenter.InsertInputMessageBlock();
+                var message = presenter.InsertInputMessageBlock();
                 message.append("```\n" + selectedText + "\n```\n\n");
                 presenter.updateMessageFromUI( message );
             }

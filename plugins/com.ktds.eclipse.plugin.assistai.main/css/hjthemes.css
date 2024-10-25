@@ -6,10 +6,23 @@
   margin: 0.0rem;
 }
 
+.theme-vs-min .inline pre code.hljs {
+  display: block;
+  overflow-x: auto;
+}
+
+.theme-vs-min .inline code.hljs {
+	background-color: #F5F5F5;
+	border-radius: 5px;
+	border-color: #C4C4C4;
+}
+
 .theme-vs-min pre code.hljs {
   display: block;
   overflow-x: auto;
-  padding: 1em
+  font-size: small;
+  padding: 1em;
+  white-space: pre-wrap;
 }
 
 .theme-vs-min code.hljs {
@@ -27,7 +40,7 @@
 	height: 100%;
 	right: 0;
 	top: -16px;
-	overflow: visible;
+	--overflow: visible;
 	display: inline;
 	pointer-events: none;
 }

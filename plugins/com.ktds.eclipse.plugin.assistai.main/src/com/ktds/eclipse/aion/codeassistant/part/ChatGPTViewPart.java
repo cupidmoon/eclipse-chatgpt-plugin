@@ -492,8 +492,9 @@ public class ChatGPTViewPart
             String fixedHtml = escapeHtmlQuotes( fixLineBreaks(parser.parseToHtml()) );
 
             // inject and highlight html message
-            browser.execute( "document.getElementById(\"message-" + messageId + "\").innerHTML = "
-            		+ "'" + fixedHtml + "';hljs.highlightAll();" );
+            browser.execute( "var element = document.getElementById(\"message-" + messageId + "\");"
+            		+ "element.innerHTML = '" + fixedHtml + "';"
+            				+ "hljs.highlightElement(element.querySelector('pre code'));" );
             // Scroll down
             browser.execute( "window.scrollTo(0, document.body.scrollHeight);" );
         } );
@@ -504,9 +505,11 @@ public class ChatGPTViewPart
         uiSync.asyncExec( () -> {
         	InputParser parser = new InputParser( messageBody );
 
-            String fixedHtml = escapeHtmlQuotes( fixLineBreaks( parser.parseToHtml() ) );
+            String fixedHtml = escapeHtmlQuotes( fixLineBreaks( parser.removeLastBr(parser.parseToHtml())) );
             // inject and highlight html message
-            browser.execute( "document.getElementById(\"message-" + messageId + "\").innerHTML = '" + fixedHtml + "';hljs.highlightAll();" );
+            browser.execute( "var element = document.getElementById(\"message-" + messageId + "\");"
+            		+ "element.innerHTML = '" + fixedHtml + "';"
+            		+ "hljs.highlightElement(element.querySelector('pre code'));" );
             // Scroll down
             browser.execute( "window.scrollTo(0, document.body.scrollHeight);" );
         } );
@@ -574,6 +577,25 @@ public class ChatGPTViewPart
                     node.setAttribute("id", "message-${id}");
                     node.setAttribute("class", "${cssClass}");
                     document.getElementById("content").appendChild(node);
+                    	""".replace( "${id}", messageId ).replace( "${cssClass}", cssClass ) );
+            browser.execute(
+                    // Scroll down
+                    "window.scrollTo(0, document.body.scrollHeight);" );
+        } );
+    }
+    
+    public void InsertInputMessageBlock( String messageId, String role )
+    {
+        //
+        String cssClass = "chat-bubble inline";
+        uiSync.asyncExec( () -> {
+            browser.execute( """
+            		parent = document.querySelector(".current");
+            		parent.classList.add('inline');
+                    node = document.createElement("div");
+                    node.setAttribute("id", "message-${id}");
+                    node.setAttribute("class", "${cssClass}");
+                    parent.parentNode.insertBefore(node, parent);
                     	""".replace( "${id}", messageId ).replace( "${cssClass}", cssClass ) );
             browser.execute(
                     // Scroll down

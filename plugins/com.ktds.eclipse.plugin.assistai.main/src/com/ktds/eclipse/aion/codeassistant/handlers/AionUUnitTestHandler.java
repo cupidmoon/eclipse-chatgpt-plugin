@@ -7,6 +7,6 @@ public class AionUUnitTestHandler extends AionUHandlerTemplate
     
     public AionUUnitTestHandler()
     {
-        super( Prompts.TEST_CASE );
+        super( Prompts.JUNIT_TEST_CASE );
     }
 }

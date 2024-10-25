@@ -190,9 +190,12 @@ public class PromptParser
         			<pre>
         			<code lang="${lang}" id="${codeBlockId}">
                     		"""
-        			.replace( "${applyPatch}", ImageTagLoader.getInstance().getApplyPatch(16))
-        			.replace( "${copyClipboard}", ImageTagLoader.getInstance().getCopyClipboard(16))
-        			.replace( "${copyToCursor}", ImageTagLoader.getInstance().getCopyToCursor(16))
+        			.replace( "${applyPatch}", ImageTagLoader.getInstance().getImageTag(
+        					"text_compare_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.png", 16))
+        			.replace( "${copyClipboard}", ImageTagLoader.getInstance().getImageTag(
+        					"content_copy_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.png", 16))
+        			.replace( "${copyToCursor}", ImageTagLoader.getInstance().getImageTag(
+        					"text_select_move_forward_character_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.png", 16))
                     .replace( "${codeBlockId}", codeBlockId )
                     .replace( "${lang}", lang ));
             state ^= CODE_BLOCK_STATE;
@@ -206,7 +209,7 @@ public class PromptParser
             codeBlockId = "";
         }
     }
-    
+
     public static String escapeBackSlashes( String input )
     {
         input = input.replace( "\\", "\\\\" );

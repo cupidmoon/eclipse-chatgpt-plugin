@@ -107,7 +107,6 @@ public class InputParser
     {
         if ( (state & CODE_BLOCK_STATE) == CODE_BLOCK_STATE  )
         {
-            
             out.append(  StringEscapeUtils.escapeHtml4(escapeBackSlashes(line)) );
         }
         else if ( ( state & TEXT_ATTACHMENT_STATE ) == TEXT_ATTACHMENT_STATE )
@@ -132,7 +131,7 @@ public class InputParser
         {
                 out.append( "\n" );
         }
-        else
+        else if(!lastLine)
         {
             out.append( "<br/>" );
         }
@@ -174,7 +173,7 @@ public class InputParser
         {
             codeBlockId = UUID.randomUUID().toString();
             out.append("""
-                    <pre><code lang="${lang}" id="${codeBlockId}">
+                    <pre class="inline"><code class="inline" lang="${lang}" id="${codeBlockId}">
                     		"""
                     .replace( "${codeBlockId}", codeBlockId )
                     .replace( "${lang}", lang ));
@@ -245,5 +244,15 @@ public class InputParser
         input = input.replaceAll("^(\\*\\*\\*|---)$", "<hr>");
         
         return input;
+    }
+    
+    public String removeLastBr(String input)
+    {
+    	if(input.trim().toUpperCase().lastIndexOf("<BR>") == input.length() - 4)
+    	{
+    		return input.trim().substring(0, input.length()-4);
+    	}
+
+    	return input;
     }
 }

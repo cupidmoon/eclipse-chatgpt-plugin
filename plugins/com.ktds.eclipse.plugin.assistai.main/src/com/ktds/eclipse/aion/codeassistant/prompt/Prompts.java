@@ -8,9 +8,9 @@ public enum Prompts
     FIX_ERRORS("fix-errors-prompt.txt", "Fix Errors"),
     GIT_COMMENT("gitcomment-prompt.txt", "Git Comment"),
     REFACTOR("refactor-prompt.txt", "Refactor"),
-    TEST_CASE("testcase-prompt.txt", "JUnit Test case"),
+    JUNIT_TEST_CASE("testcase-prompt.txt", "JUnit Test case"),
     // AION-U Custom
-	JAVA_UPGRADE("upgrade-prompt.txt", "Upgrade Source"),
+	UPGRADE_SOURCE("upgrade-prompt.txt", "Upgrade Source"),
 	DISCUSS_SELECTED("discuss-selected.txt", "Discuss Selected code");
 
     private final String fileName;

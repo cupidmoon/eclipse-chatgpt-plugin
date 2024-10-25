@@ -7,8 +7,8 @@ const words = [
     { word: '/Fix Errors', icon: 'fas fa-cherry' },
     { word: '/Git Comment', icon: 'far fa-calendar-alt' },
     { word: '/Refactor', icon: 'fas fa-seedling' },
-    { word: '/Test Case', icon: 'fas fa-leaf' },
-    { word: '/Java Upgrade', icon: 'fas fa-wine-glass' }
+    { word: '/JUnit Test case', icon: 'fas fa-leaf' },
+    { word: '/Upgrade Source', icon: 'fas fa-wine-glass' }
 ];
 
 let selectedIndex = -1;

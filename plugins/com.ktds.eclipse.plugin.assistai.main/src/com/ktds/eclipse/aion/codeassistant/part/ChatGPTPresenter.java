@@ -158,6 +158,16 @@ public class ChatGPTPresenter
         return message;
     }
 
+    public ChatMessage InsertInputMessageBlock()
+    {
+        ChatMessage message = chatMessageFactory.createAssistantChatMessage( "" );
+        conversation.add( message );
+        partAccessor.findMessageView().ifPresent( messageView -> {
+            messageView.InsertInputMessageBlock( message.getId(), "user" );
+        } );
+        return message;
+    }
+
     public void updateMessageFromAssistant( ChatMessage message )
     {
         partAccessor.findMessageView().ifPresent( messageView -> {

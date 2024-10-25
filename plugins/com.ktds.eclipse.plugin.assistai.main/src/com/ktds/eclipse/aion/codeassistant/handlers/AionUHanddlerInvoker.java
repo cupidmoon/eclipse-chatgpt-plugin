@@ -44,13 +44,13 @@ public class AionUHanddlerInvoker {
     					Activator.getBundleContext().getBundle().loadClass(AionUCodeRefactorHandler.class.getName()), 
     					EclipseContextFactory.getServiceContext(Activator.getBundleContext()))).runPrompt();;
     			break;
-    		case TEST_CASE:
+    		case JUNIT_TEST_CASE:
     			((AionUUnitTestHandler)ContextInjectionFactory.make(
     					Activator.getBundleContext().getBundle().loadClass(AionUUnitTestHandler.class.getName()), 
     					EclipseContextFactory.getServiceContext(Activator.getBundleContext()))).runPrompt();;
     			break;
     		    // AION-U Custom
-    		case JAVA_UPGRADE:
+    		case UPGRADE_SOURCE:
     			((AionUJavaUpgradeHandler)ContextInjectionFactory.make(
     					Activator.getBundleContext().getBundle().loadClass(AionUJavaUpgradeHandler.class.getName()), 
     					EclipseContextFactory.getServiceContext(Activator.getBundleContext()))).runPrompt();;

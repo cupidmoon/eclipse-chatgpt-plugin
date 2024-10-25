@@ -47,11 +47,11 @@ public class ChatMessageFactory
             switch ( type )
             {
                 case DOCUMENT   -> javaDocPromptSupplier( context );
-                case TEST_CASE  -> unitTestSupplier( context );
+                case JUNIT_TEST_CASE  -> unitTestSupplier( context );
                 case REFACTOR   -> refactorPromptSupplier( context );
                 case DISCUSS    -> discussCodePromptSupplier( context );
                 case FIX_ERRORS -> fixErrorsPromptSupplier( context );
-                case JAVA_UPGRADE -> javaUpgradePromptSupplier( context );
+                case UPGRADE_SOURCE -> javaUpgradePromptSupplier( context );
                 case DISCUSS_SELECTED -> discussSelectedCodePromptSupplier( context );
                 default ->
                     throw new IllegalArgumentException();
@@ -88,7 +88,7 @@ public class ChatMessageFactory
 
     private Supplier<String> javaUpgradePromptSupplier( Context context )
     {
-        return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.JAVA_UPGRADE.preferenceName() ), 
+        return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.UPGRADE_SOURCE.preferenceName() ), 
                 "${documentText}", context.fileContents(),
                 "${fileName}", context.fileName(),
                 "${lang}", context.lang()
@@ -115,7 +115,7 @@ public class ChatMessageFactory
     }
     private Supplier<String> unitTestSupplier( Context context )
     {
-        return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.TEST_CASE.preferenceName() ), 
+        return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.JUNIT_TEST_CASE.preferenceName() ), 
                 "${documentText}", context.fileContents(),
                 "${javaType}", context.selectedItemType(),
                 "${name}", context.selectedItem(),
