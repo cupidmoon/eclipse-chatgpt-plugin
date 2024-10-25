@@ -12,6 +12,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.ui.JavaUI;
 import org.eclipse.jface.text.ITextSelection;
+import org.eclipse.jface.text.TextSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.texteditor.ITextEditor;
@@ -116,7 +117,9 @@ public class AionUHandlerTemplate
                                        selectedText, 
                                        selectedJavaElement, 
                                        selectedJavaType,
-                                       ext);
+                                       ext,
+                                       textSelection.getStartLine(),
+                                       textSelection.getEndLine());
             var message = chatMessageFactory.createUserChatMessage( type, context );
             viewPresenter.onSendPredefinedPrompt( type, message );
         }

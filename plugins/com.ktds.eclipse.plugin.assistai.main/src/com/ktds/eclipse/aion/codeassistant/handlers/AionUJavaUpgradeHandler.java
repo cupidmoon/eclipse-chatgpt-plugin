@@ -66,7 +66,7 @@ public class AionUJavaUpgradeHandler
 		
 		logger.info("filePath = " + filePath);
 	    
-	    var context = new Context( filePath, fileContents, "", "", "", ext );
+	    var context = new Context( filePath, fileContents, "", "", "", ext, 0, 0 );
 	    var message = chatMessageFactory.createUserChatMessage( Prompts.UPGRADE_SOURCE, context );
 	    viewPresenter.onSendPredefinedPrompt( Prompts.UPGRADE_SOURCE, message );
     }		

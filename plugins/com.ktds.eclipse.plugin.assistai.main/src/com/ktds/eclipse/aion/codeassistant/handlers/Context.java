@@ -6,4 +6,6 @@ public record Context(
     String selectedContent,
     String selectedItem,
     String selectedItemType,
-    String lang) {}
+    String lang,
+    int selectedLineFrom,
+    int selectedLineTo) {}

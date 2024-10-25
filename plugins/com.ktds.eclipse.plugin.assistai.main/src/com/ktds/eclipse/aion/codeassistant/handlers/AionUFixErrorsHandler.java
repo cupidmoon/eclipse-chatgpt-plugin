@@ -118,7 +118,7 @@ public class AionUFixErrorsHandler
         }
         if ( !errorMessages.isEmpty() )
         {
-            var context = new Context( filePath, fileContents, errorMessages, "", "", ext );
+            var context = new Context( filePath, fileContents, errorMessages, "", "", ext, 0, 0 );
             var message = chatMessageFactory.createUserChatMessage( Prompts.FIX_ERRORS, context );
             viewPresenter.onSendPredefinedPrompt( Prompts.FIX_ERRORS, message );
         }

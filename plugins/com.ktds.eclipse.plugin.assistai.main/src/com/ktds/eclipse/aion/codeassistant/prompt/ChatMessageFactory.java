@@ -107,10 +107,13 @@ public class ChatMessageFactory
     private Supplier<String> refactorPromptSupplier( Context context )
     {
         return () -> promptLoader.updatePromptText( preferenceStore.getString( Prompts.REFACTOR.preferenceName() ), 
+        		"${file}", context.fileName(),
                 "${documentText}", context.fileContents(),
                 "${selectedText}", context.selectedContent(),
                 "${fileName}", context.fileName(),
-                "${lang}", context.lang()
+                "${lang}", context.lang(),
+                "${selectionLineStart}", String.valueOf(context.selectedLineFrom()),
+                "${selectionLineEnd}", String.valueOf(context.selectedLineTo())
                 );
     }
     private Supplier<String> unitTestSupplier( Context context )
